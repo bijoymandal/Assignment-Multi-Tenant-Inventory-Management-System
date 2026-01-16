@@ -9,10 +9,12 @@ export default function Dashboard() {
 
     return (
         <DashboardLayout>
-            {/* {role === "admin" && <AdminPanel />}
+            {role === "Owner" &&
+                <h1>Admin Dashboard ds fsdf sdfds fds fds fsd fsd fsdß</h1>
+            }
             {role === "manager" && <ManagerPanel />}
-            {role === "user" && <UserPanel />} */}
-            <h1>All role List Her to manages</h1>
+            {role === "user" && <UserPanel />}
+
         </DashboardLayout>
     );
 }

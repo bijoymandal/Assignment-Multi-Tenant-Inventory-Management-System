@@ -1,46 +1,43 @@
-export default function Sidebar() {
-    const role = localStorage.getItem("role");
+import { Link } from "react-router-dom";
 
+export default function Sidebar({ role }) {
     return (
-        <aside className="w-64 bg-white shadow-md p-4">
-            <h2 className="text-xl font-bold mb-6">Dashboard</h2>
+        <aside className="w-64 bg-gray-900 text-white fixed">
+            <div className="p-5 text-xl font-bold border-b border-gray-700">
+                Inventory SaaS
+            </div>
 
-            <ul className="space-y-3">
+            <nav className="p-4 space-y-3">
 
-                {role === "admin" && (
+                <MenuItem to="/dashboard" label="Dashboard" />
+
+                {role !== "Staff" && (
                     <>
-                        <li className="hover:text-blue-600 cursor-pointer">
-                            User Management
-                        </li>
-                        <li className="hover:text-blue-600 cursor-pointer">
-                            System Settings
-                        </li>
+                        <MenuItem to="/Inventory" label="Inventory" />
+                        <MenuItem to="/suppliers" label="Suppliers" />
+                        <MenuItem to="/purchase-orders" label="Purchase Orders" />
                     </>
                 )}
 
-                {role === "manager" && (
-                    <>
-                        <li className="hover:text-blue-600 cursor-pointer">
-                            Approvals
-                        </li>
-                        <li className="hover:text-blue-600 cursor-pointer">
-                            Reports
-                        </li>
-                    </>
+                <MenuItem to="/orders" label="Orders" />
+
+                {role === "Owner" && (
+                    <MenuItem to="/users" label="User Management" />
                 )}
 
-                {role === "user" && (
-                    <>
-                        <li className="hover:text-blue-600 cursor-pointer">
-                            My Profile
-                        </li>
-                        <li className="hover:text-blue-600 cursor-pointer">
-                            My Orders
-                        </li>
-                    </>
-                )}
-
-            </ul>
+                <MenuItem to="/logout" label="Logout" />
+            </nav>
         </aside>
+    );
+}
+
+function MenuItem({ to, label }) {
+    return (
+        <Link
+            to={to}
+            className="block px-4 py-2 rounded hover:bg-gray-700 transition"
+        >
+            {label}
+        </Link>
     );
 }

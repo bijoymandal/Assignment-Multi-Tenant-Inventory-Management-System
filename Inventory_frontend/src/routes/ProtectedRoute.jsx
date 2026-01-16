@@ -1,6 +1,11 @@
 import { Navigate } from "react-router-dom";
 
-export default function ProtectedRoute({ children }) {
+export default function ProtectedRoute({ children, allowedRoles }) {
     const token = localStorage.getItem("token");
     return token ? children : <Navigate to="/login" />;
+
+    if (allowedRoles && !allowedRoles.includes(role)) {
+        return <Navigate to="/dashboard" />;
+    }
+    return children;
 }
