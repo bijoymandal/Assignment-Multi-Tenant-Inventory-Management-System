@@ -1,0 +1,64 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Inventory SaaS API",
+    "description": "Multi-Tenant Inventory Management System"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "JWT": {
+        "in": "header",
+        "type": "apiKey",
+        "name": "Authorization"
+      }
+    }
+  },
+  "paths": {
+    "/api/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "User SignIn",
+        "description": "Endpoint for user login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "User logged in successfully"
+          },
+          "401": {
+            "description": "Invalid email or password"
+          }
+        }
+      }
+    }
+  }
+}
