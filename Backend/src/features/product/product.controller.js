@@ -1,7 +1,7 @@
 import Product from '../../models/Product.js';
 
 export default function productController() {
-    const inventoryList = async(req,res)=>{
+    const productList = async(req,res)=>{
         try{ 
             if (!req.user || !req.user.tenantId) {
                 return res.status(401).json({
@@ -27,7 +27,6 @@ export default function productController() {
                 }
             }
             ]);
-
             return res.status(200).json({
             success: true,
             count: products.length,
@@ -39,5 +38,5 @@ export default function productController() {
             res.status(500).json({success:false,message:error});
         }
     }
-    return {inventoryList}
+    return {productList}
 }
