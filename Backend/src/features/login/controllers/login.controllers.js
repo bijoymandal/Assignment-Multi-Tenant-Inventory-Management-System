@@ -6,6 +6,9 @@ export default function loginController() {
     const userLogin = async (req,res) => {
         const { email, password } = req.body;
         try{
+            if (!email || !password) {
+               return res.status(400).json({ message: "All fields required" });
+            }
             const user = await User.findOne({ email });
             if (!user) return res.status(401).json({ message: "Invalid login" });
 
@@ -14,7 +17,7 @@ export default function loginController() {
 
             const token = jwt.sign(
             {
-                userId: user._id,
+                id: user._id,
                 tenantId: user.tenantId,
                 role: user.role
             },
@@ -22,7 +25,7 @@ export default function loginController() {
             { expiresIn: "1h" }
             );
 
-            return res.status(200).json({ token, role: user.role });
+            return res.status(200).json({ token, user:{id:user._id,name:user.name,role:user.role,email:user.email} });
         }
         catch(error)
         {
