@@ -16,12 +16,18 @@ const apiDocs = JSON.parse(
 );
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use('/api-docs', swagger.serve, swagger.setup(apiDocs));
 
 
-app.use('/api',LoginRouter);
+app.use('/api/auth',LoginRouter);
 
 app.get("/", (req, res) => {
   res.send("Node project setup successful 🚀");
