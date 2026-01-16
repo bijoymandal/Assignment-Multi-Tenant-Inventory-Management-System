@@ -4,14 +4,31 @@ import CommonTable from "../components/CommonTable";
 import DashboardLayout from "../components/layouts/DashboardLayout";
 
 export default function Inventory() {
-    // const role = localStorage.getItem("role");
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
     useEffect(() => {
         apiFetch("/products")
-            .then(setItems)
+            .then(res => {
+                // If API returns { success, data }
+                const products = res.data || res;
+                console.log(products);
+
+                // Map backend data to UI format
+                const formatted = products.map(p => ({
+                    _id: p._id,
+                    sku: p.name,               // or p.sku if exists
+                    attributes: {
+                        color: p.color || "N/A",
+                        size: p.size || "N/A"
+                    },
+                    stock: p.stock || 0,
+                    price: p.price || 0
+                }));
+
+                setItems(formatted);
+            })
             .catch(err => setError(err.message))
             .finally(() => setLoading(false));
     }, []);
@@ -23,6 +40,7 @@ export default function Inventory() {
         { key: "stock", label: "Stock" },
         { key: "price", label: "Price" }
     ];
+
     return (
         <DashboardLayout>
             <CommonTable
@@ -36,12 +54,13 @@ export default function Inventory() {
                         <td className="p-2">{v.sku}</td>
                         <td>{v.attributes.color}</td>
                         <td>{v.attributes.size}</td>
-                        <td className={v.stock < 20 ? "text-red-600" : ""}>{v.stock}</td>
+                        <td className={v.stock < 20 ? "text-red-600" : ""}>
+                            {v.stock}
+                        </td>
                         <td>₹{v.price}</td>
                     </tr>
                 )}
             />
         </DashboardLayout>
-
     );
 }

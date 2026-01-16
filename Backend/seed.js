@@ -22,13 +22,13 @@ await Promise.all([
   PurchaseOrder.deleteMany()
 ]);
 
-// 1️⃣ Tenant
+// Tenant
 const tenant = await Tenant.create({
   name: "Enterprise Store",
   plan: "Enterprise"
 });
 
-// 2️⃣ Products (1,000)
+// Products (1,000)
 const products = await Product.insertMany(
   Array.from({ length: 1000 }).map(() => ({
     tenantId: tenant._id,
@@ -37,7 +37,7 @@ const products = await Product.insertMany(
   }))
 );
 
-// 3️⃣ Variants (100,000)
+// Variants (100,000)
 const colors = ["Red", "Blue", "Green", "Black", "White"];
 const sizes = ["XS", "S", "M", "L", "XL"];
 
@@ -61,7 +61,7 @@ for (let i = 0; i < 100000; i++) {
 
 const savedVariants = await Variant.insertMany(variants, { ordered: false });
 
-// 4️⃣ Suppliers (20)
+// Suppliers (20)
 const suppliers = await Supplier.insertMany(
   Array.from({ length: 20 }).map(() => ({
     tenantId: tenant._id,
@@ -71,7 +71,6 @@ const suppliers = await Supplier.insertMany(
   }))
 );
 
-// 5️⃣ Assign VALID pricing to suppliers
 for (const supplier of suppliers) {
   const priceList = [];
 
@@ -90,7 +89,6 @@ for (const supplier of suppliers) {
   await supplier.save();
 }
 
-// 6️⃣ Purchase Orders (10,000)
 const purchaseOrders = [];
 
 for (let i = 0; i < 10000; i++) {
@@ -142,7 +140,6 @@ for (let i = 0; i < 10000; i++) {
 
 await PurchaseOrder.insertMany(purchaseOrders, { ordered: false });
 
-// 7️⃣ Customer Orders (10,000)
 const orders = [];
 
 for (let i = 0; i < 10000; i++) {
