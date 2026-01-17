@@ -79,7 +79,10 @@ seed userSeede.js
 ### 5. run server 
 npm run dev (frontend)
 
-### 7. Open Swagger
+### 6. Run Node.js (Backend)
+    node server.js
+
+### 6. Open Swagger
 http://localhost:3000/api-docs
 
 
